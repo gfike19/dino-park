@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-Lorem ipsum
-</body>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+    <head th:replace="base :: head">
+    </head>
+    <body>
+<!--        <form method="post">-->
+            <!-- below doesn't work -->
+<!--            <select name="dinoSelected" id="dinoSelected" class="form-control select2-single"-->
+<!--                    th:each="dino: ${allDinos}">-->
+<!--                <option th:value="${dino.Id}" th:text="${dino.dinoName}"></option>-->
+<!--            </select>-->
+<!--            <select th:autocomplete="@{alldinos}"></select>-->
+            <ul th:each="dino : ${allDinos}">
+                <li th:text="${dino.dinoName}"></li>
+            </ul>
+<!--        </form>-->
+The quick brown fox jumped over the lazy dog.
+    </body>
 </html>
