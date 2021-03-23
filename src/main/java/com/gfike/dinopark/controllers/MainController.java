@@ -19,10 +19,7 @@ public class MainController {
 
     @GetMapping
     public String index(Model model) {
-//        List<Dino> allDinos = (List<Dino>)dinoDao.findAll();
-        String title = "Dino Park Helper";
         model.addAttribute("allDinos", dinoDao.findAll());
-        model.addAttribute("title", title);
         return "index";
     }
 

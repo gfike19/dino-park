@@ -6,14 +6,13 @@
 <!--        <form method="post">-->
             <!-- below doesn't work -->
 <!--            <select name="dinoSelected" id="dinoSelected" class="form-control select2-single"-->
-<!--                    th:each="dino: ${allDinos}">-->
+<!--                    th:each="dino: ${allDinos}" autocomplete="on">-->
 <!--                <option th:value="${dino.Id}" th:text="${dino.dinoName}"></option>-->
 <!--            </select>-->
-<!--            <select th:autocomplete="@{alldinos}"></select>-->
-            <ul th:each="dino : ${allDinos}">
-                <li th:text="${dino.dinoName}"></li>
-            </ul>
-<!--        </form>-->
-The quick brown fox jumped over the lazy dog.
+<label for="allDinos" class="form-label">Datalist example</label>
+<input class="form-control" list="dinos" id="allDinos">
+<datalist id="dinos">
+    <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" th:value="${dino.id}"></option>
+</datalist>
     </body>
 </html>
