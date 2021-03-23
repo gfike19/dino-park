@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-    <head th:replace="base :: head">
-    </head>
-    <body>
-<!--        <form method="post">-->
-            <!-- below doesn't work -->
-<!--            <select name="dinoSelected" id="dinoSelected" class="form-control select2-single"-->
-<!--                    th:each="dino: ${allDinos}" autocomplete="on">-->
-<!--                <option th:value="${dino.Id}" th:text="${dino.dinoName}"></option>-->
-<!--            </select>-->
-<label for="allDinos" class="form-label">Datalist example</label>
-<input class="form-control" list="dinos" id="allDinos">
-<datalist id="dinos">
-    <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" th:value="${dino.id}"></option>
-</datalist>
-    </body>
+<head th:replace="base :: head">
+</head>
+<body>
+<span th:replace="base :: scripts" hidden></span>
+<div class="container-fluid">
+    <form method="post">
+        <div class="row">
+            <div class="form-group">
+                <label for="allDinos" class="form-label">Select a dinosaur:</label>
+                <input class="form-control" list="dinos" id="allDinos">
+                <datalist id="dinos">
+                    <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" th:value="${dino.id}"></option>
+                </datalist>
+            </div>
+            <input type="submit" id="submit" name="submit" value="Submit" class="btn-primary"/>
+        </div>
+    </form>
+</div>
+</body>
 </html>
