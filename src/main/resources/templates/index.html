@@ -4,43 +4,61 @@
 </head>
 <body>
 <span th:replace="base :: scripts" hidden></span>
-<h1>Jurassic World Evolution Helper App</h1>
+<h1 th:text="${title}"></h1>
+<span th:text="${msg}" th:value="${msg}"></span>
 <div class="container-fluid">
     <form method="post">
-        <div class="row">
-            <div class="column">
-                <div class="form-group">
-                    <label for="allDinos" class="form-label">Select a dinosaur:</label>
-                    <input class="form-control" list="dinos" id="allDinos" name="allDinos" autocomplete="off">
-                    <datalist id="dinos" >
-                        <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" >
-                            <input type="hidden" name="dinoId" id="dinoId" value="${dino.id}"/>
-                        </option>
-                    </datalist>
-                </div>
+        <div class="form-group row">
+            <div class="col-xs-2">
+                <label for="allDinos" class="form-label">Select a dinosaur:</label>
+                <input class="form-control" list="dinos" id="allDinos" name="allDinos" autocomplete="off"/>
+                <datalist id="dinos">
+                    <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" th:value="${dino.id}">
+                    </option>
+                </datalist>
                 <input type="submit" id="submit" name="submit" value="Submit" class="btn-primary"/>
-            </div>
-            <div class="column">
-                <p th:if="${dinoSelected == false}">No dino currently selected.</p>
-                <table th:if="${dinoSelected == true}">
-                    <thead>Current Dino Selected</thead>
-                    <tr>
-                        <td>Dino Name: </td><td th:text="${currDino.dinoName}"></td>
-                    </tr>
-                    <tr>
-                        <td>Type: </td><td th:text="${currDino.dinoType}"></td>
-                    </tr>
-                    <tr>
-                        <td>Comfort Threshold: </td><td th:text="${currDino.comfort}"></td>
-                    </tr>
-                    <tr>
-                        <td>Grassland: </td><td th:text="${currDino.grass}"></td>
-                    </tr>
-                </table>
             </div>
         </div>
     </form>
-    <span th:text="${msg}"></span>
+    <p th:if="${dinoSelected != true}">No dino currently selected</p>
+    <table th:if="${dinoSelected == true}">
+        <tr>
+            <td><strong>Dino Name: </strong></td>
+            <td th:text="${currDino.dinoName}"></td>
+        </tr>
+        <tr>
+            <td><strong>Type: </strong></td>
+            <td th:text="${currDino.dinoType}"></td>
+        </tr>
+        <tr>
+            <td><strong>Comfort Threshold: </strong></td>
+            <td th:text="${currDino.comfort + '%'}"></td>
+        </tr>
+        <tr>
+            <td><strong>Grassland: </strong></td>
+            <td th:text="${currDino.grass + 'm^2'}"></td>
+        </tr>
+        <tr>
+            <td><strong>Forest: </strong></td>
+            <td th:text="${currDino.forest + 'm^2'}"></td>
+        </tr>
+        <tr>
+            <td><strong>Wetland: </strong></td>
+            <td th:text="${currDino.wetland + 'm^2'}"></td>
+        </tr>
+        <tr>
+            <td><strong>Max Ideal Population: </strong></td>
+            <td th:text="${currDino.maxPop + 'm^2'}"></td>
+        </tr>
+        <tr>
+            <td><strong>Social Group Min: </strong></td>
+            <td th:text="${currDino.socialMin + 'm^2'}"></td>
+        </tr>
+        <tr>
+            <td><strong>Social Group Max: </strong></td>
+            <td th:text="${currDino.socialMax + 'm^2'}"></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

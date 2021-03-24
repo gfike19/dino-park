@@ -22,36 +22,36 @@ public class MainController {
 
     @GetMapping
     public String index(Model model, HttpSession session) {
-        boolean dinoSelected;
         if(session.getAttribute("dinoSelected") == null) {
-            dinoSelected = false;
-            session.setAttribute("dinoSelected", dinoSelected);
-        } else {
-            dinoSelected = (boolean) session.getAttribute("dinoSelected");
+            session.setAttribute("dinoSelected", false);
+        }
+        boolean dinoSelected = (boolean) session.getAttribute("dinoSelected");
+
+        if((boolean)session.getAttribute("dinoSelected") == true) {
+            Dino currDino = (Dino) session.getAttribute("currDino");
+            model.addAttribute("currDino", currDino);
         }
         model.addAttribute("dinoSelected", dinoSelected);
         model.addAttribute("allDinos", dinoDao.findAll());
-        model.addAttribute("title", "Jurassic World Evolution Helper App");
+        model.addAttribute("title", "Jurassic World Evolution Assistant");
         return "index";
     }
 
     @PostMapping
-    public String index(Model model, ServletRequest request, HttpSession session) {
-        try {
-            String id = request.getParameter("allDinos");
-            Dino currDino = dinoDao.findById(Integer.parseInt(id));
-            model.addAttribute("currDino", currDino);
-            boolean dinoSelected;
-            session.removeAttribute("dinoSelected");
-            dinoSelected = true;
-            session.setAttribute("dinoSelected", dinoSelected);
-            model.addAttribute("dinoSelected", dinoSelected);
-        } catch(Exception e) {
-            String msg = e.toString();
-            model.addAttribute("msg",  msg);
+    public String index(ServletRequest request, HttpSession session, Model model) {
+        int id = Integer.parseInt(request.getParameter("allDinos"));
+        Dino currDino = null;
+        for(Dino d : dinoDao.findAll()) {
+            if(d.getId() == id) {
+                currDino = d;
+            }
         }
+//        model.addAttribute("currDino", currDino);
+        session.setAttribute("currDino", currDino);
+        session.setAttribute("dinoSelected", true);
         return "redirect:/";
     }
+
     @GetMapping(path="error")
     public String Error () {
         return "error";
