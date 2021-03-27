@@ -1,7 +1,7 @@
 package com.gfike.dinopark.controllers;
 
-import com.gfike.dinopark.daos.DinoDao;
-import com.gfike.dinopark.daos.DinoRepository;
+import com.gfike.dinopark.data.DinoDao;
+import com.gfike.dinopark.data.DinoRepository;
 import com.gfike.dinopark.models.Dino;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +34,15 @@ public class MainController {
         if((boolean)session.getAttribute("dinoSelected") == true) {
             Dino currDino = (Dino) session.getAttribute("currDino");
             model.addAttribute("currDino", currDino);
+            List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
+            model.addAttribute("safeByType", safeByType);
+        }
+
+        String userMsg = "";
+        if(session.getAttribute("userMsg") != null) {
+            userMsg = session.getAttribute("userMsg").toString();
+            model.addAttribute("userMsg", userMsg);
+            session.removeAttribute("userMsg");
         }
         model.addAttribute("dinoSelected", dinoSelected);
         model.addAttribute("allDinos", dinoDao.findAll());
@@ -42,15 +51,58 @@ public class MainController {
     }
 
     @PostMapping
-    public String index(ServletRequest request, HttpSession session, Model model) {
+    public String index(ServletRequest request, HttpSession session) {
+
+        if(request.getParameter("allDinos") == "") {
+            session.removeAttribute("dinoSelected");
+            session.setAttribute("dinoSelected", false);
+            return "redirect:/";
+        }
+
         int id = Integer.parseInt(request.getParameter("allDinos"));
-        Dino currDino = null;
-        for(Dino d : dinoDao.findAll()) {
-            if(d.getId() == id) {
-                currDino = d;
+        Dino currDino = dinoDao.findById(id);
+
+        if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
+            String userMsg = "T Rex has to be alone!";
+            session.setAttribute("userMsg", userMsg);
+            session.setAttribute("currDino", currDino);
+            session.setAttribute("dinoSelected", true);
+            return "redirect:/";
+        }
+
+        String dinoType = currDino.getDinoType();
+
+        List<Dino> safeByType = null;
+
+        if(!currDino.getDinoName().equals("Tyrannosaurus Rex") &&
+        dinoType.equals("Large Carnivore") || dinoType.equals("Large Piscivore")) {
+            safeByType = dinoRepo.FindLargeCarnivoreSafe();
+        }
+
+        if(dinoType.equals("Small Carnivore")) {
+            safeByType = dinoRepo.FindSmallCarnivoreSafe();
+        }
+
+        if(dinoType.equals("Giant Herbivore")) {
+            safeByType = dinoRepo.SansTrex();
+        }
+
+        if(dinoType.equals("Armored Herbivore")) {
+            safeByType = dinoRepo.FindArmoredHerbivoreSafe();
+        }
+
+        if(dinoType.equals("Medium Herbivore") || dinoType.equals("Small Herbivore")) {
+            safeByType = dinoRepo.FindSmallMediumHerbivoreSafe();
+        }
+
+        for(Dino d : safeByType) {
+            if(d.getDinoName().equals(currDino.getDinoName())) {
+                safeByType.remove(d);
+                break;
             }
         }
 
+        session.setAttribute("safeByType", safeByType);
         session.setAttribute("currDino", currDino);
         session.setAttribute("dinoSelected", true);
         return "redirect:/";

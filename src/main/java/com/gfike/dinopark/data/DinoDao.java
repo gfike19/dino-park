@@ -1,4 +1,4 @@
-package com.gfike.dinopark.daos;
+package com.gfike.dinopark.data;
 
 import com.gfike.dinopark.models.Dino;
 import org.springframework.data.repository.CrudRepository;

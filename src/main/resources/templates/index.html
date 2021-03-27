@@ -17,6 +17,9 @@
                     </option>
                 </datalist>
                 <input type="submit" id="submit" name="submit" value="Submit" class="btn-primary"/>
+                <span th:if="${userMsg != '' || userMsg != null}">
+                    <h2 th:text="${userMsg}"></h2>
+                </span>
             </div>
         </div>
     </form>
