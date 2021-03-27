@@ -1,6 +1,7 @@
 package com.gfike.dinopark.controllers;
 
 import com.gfike.dinopark.daos.DinoDao;
+import com.gfike.dinopark.daos.DinoRepository;
 import com.gfike.dinopark.models.Dino;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class MainController {
 
     @Autowired
     DinoDao dinoDao;
+
+    @Autowired
+    private DinoRepository dinoRepo;
 
     @GetMapping
     public String index(Model model, HttpSession session) {
@@ -46,7 +50,7 @@ public class MainController {
                 currDino = d;
             }
         }
-//        model.addAttribute("currDino", currDino);
+
         session.setAttribute("currDino", currDino);
         session.setAttribute("dinoSelected", true);
         return "redirect:/";
@@ -55,5 +59,12 @@ public class MainController {
     @GetMapping(path="error")
     public String Error () {
         return "error";
+    }
+
+    @GetMapping(path="test")
+    public String Test (Model model) {
+        List<Dino> test = dinoRepo.FindLargeCarnivoreSafe();
+        model.addAttribute("test", test);
+        return "test";
     }
 }
