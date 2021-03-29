@@ -37,6 +37,10 @@ public class MainController {
             model.addAttribute("currDino", currDino);
             List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
             model.addAttribute("safeByType", safeByType);
+
+            if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
+                model.addAttribute("trexPresent", true);
+            }
         }
 
         String userMsg = "";
