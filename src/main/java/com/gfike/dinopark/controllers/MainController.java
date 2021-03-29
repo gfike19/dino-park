@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -106,6 +107,15 @@ public class MainController {
         session.setAttribute("currDino", currDino);
         session.setAttribute("dinoSelected", true);
         return "redirect:/";
+    }
+
+    @GetMapping(path="{id}")
+    public String safeByType(Model model, @PathVariable int id) {
+//        int dinoId = Integer.parseInt(id);
+        Dino d = dinoDao.findById(id);
+        model.addAttribute("dino", d);
+        model.addAttribute("title", d.getDinoName());
+        return "displayDino";
     }
 
     @GetMapping(path="error")

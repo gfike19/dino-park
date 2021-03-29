@@ -8,8 +8,8 @@
 <span th:text="${msg}" th:value="${msg}"></span>
 <div class="container-fluid">
     <form method="post">
-        <div class="form-group row">
-            <div class="col-xs-2">
+        <div class="row">
+            <div class="col">
                 <label for="allDinos" class="form-label">Select a dinosaur:</label>
                 <input class="form-control" list="dinos" id="allDinos" name="allDinos" autocomplete="off"/>
                 <datalist id="dinos">
@@ -22,44 +22,59 @@
         </div>
     </form>
     <p th:if="${dinoSelected != true}">No dino currently selected</p>
-    <table th:if="${dinoSelected == true}">
-        <tr>
-            <td><strong>Dino Name: </strong></td>
-            <td th:text="${currDino.dinoName}"></td>
-        </tr>
-        <tr>
-            <td><strong>Type: </strong></td>
-            <td th:text="${currDino.dinoType}"></td>
-        </tr>
-        <tr>
-            <td><strong>Comfort Threshold: </strong></td>
-            <td th:text="${currDino.comfort + '%'}"></td>
-        </tr>
-        <tr>
-            <td><strong>Grassland: </strong></td>
-            <td th:text="${currDino.grass + 'm^2'}"></td>
-        </tr>
-        <tr>
-            <td><strong>Forest: </strong></td>
-            <td th:text="${currDino.forest + 'm^2'}"></td>
-        </tr>
-        <tr>
-            <td><strong>Wetland: </strong></td>
-            <td th:text="${currDino.wetland + 'm^2'}"></td>
-        </tr>
-        <tr>
-            <td><strong>Max Ideal Population: </strong></td>
-            <td th:text="${currDino.maxPop + 'm^2'}"></td>
-        </tr>
-        <tr>
-            <td><strong>Social Group Min: </strong></td>
-            <td th:text="${currDino.socialMin + 'm^2'}"></td>
-        </tr>
-        <tr>
-            <td><strong>Social Group Max: </strong></td>
-            <td th:text="${currDino.socialMax + 'm^2'}"></td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="col-sm-3" th:if="${dinoSelected == true}">
+            <table>
+                <tr>
+                    <td><strong>Dino Name: </strong></td>
+                    <td th:text="${currDino.dinoName}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Type: </strong></td>
+                    <td th:text="${currDino.dinoType}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Comfort Threshold: </strong></td>
+                    <td th:text="${currDino.comfort + '%'}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Grassland: </strong></td>
+                    <td th:text="${currDino.grass + 'm^2'}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Forest: </strong></td>
+                    <td th:text="${currDino.forest + 'm^2'}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Wetland: </strong></td>
+                    <td th:text="${currDino.wetland + 'm^2'}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Max Ideal Population: </strong></td>
+                    <td th:text="${currDino.maxPop}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Social Group Min: </strong></td>
+                    <td th:text="${currDino.socialMin}"></td>
+                </tr>
+                <tr>
+                    <td><strong>Social Group Max: </strong></td>
+                    <td th:text="${currDino.socialMax}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-6" th:if="${dinoSelected == true}">
+            <h2>Safe Dinos For Current Selection</h2>
+            <p>Click Dino Name for More Info</p>
+            <div class="list-group">
+                <a th:each="dino: ${safeByType}"
+                   th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"
+                   class="list-group-item list-group-item-action" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 </body>
 </html>

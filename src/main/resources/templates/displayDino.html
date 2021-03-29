@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="base :: head">
+</head>
+<body>
+<span th:replace="base :: scripts" hidden></span>
+<h1 th:text="${title}"></h1>
+<body>
+<table>
+    <tr>
+        <td><strong>Dino Name: </strong></td>
+        <td th:text="${dino.dinoName}"></td>
+    </tr>
+    <tr>
+        <td><strong>Type: </strong></td>
+        <td th:text="${dino.dinoType}"></td>
+    </tr>
+    <tr>
+        <td><strong>Comfort Threshold: </strong></td>
+        <td th:text="${dino.comfort + '%'}"></td>
+    </tr>
+    <tr>
+        <td><strong>Grassland: </strong></td>
+        <td th:text="${dino.grass + 'm^2'}"></td>
+    </tr>
+    <tr>
+        <td><strong>Forest: </strong></td>
+        <td th:text="${dino.forest + 'm^2'}"></td>
+    </tr>
+    <tr>
+        <td><strong>Wetland: </strong></td>
+        <td th:text="${dino.wetland + 'm^2'}"></td>
+    </tr>
+    <tr>
+        <td><strong>Max Ideal Population: </strong></td>
+        <td th:text="${dino.maxPop}"></td>
+    </tr>
+    <tr>
+        <td><strong>Social Group Min: </strong></td>
+        <td th:text="${dino.socialMin}"></td>
+    </tr>
+    <tr>
+        <td><strong>Social Group Max: </strong></td>
+        <td th:text="${dino.socialMax}"></td>
+    </tr>
+</table>
+</body>
+</html>
