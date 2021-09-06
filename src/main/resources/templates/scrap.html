@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <p>
+
+        <button th:each="dino: ${safeByType}" type="button" data-toggle="collapse"
+                th:attr="data-target=#collapse"+${dino.dinoName} aria-expanded="false"
+                th:attr="aria-controls=collapse"+${dino.dinoName} th:text="${dino.dinoName}"></button>
+
+    </p>
+    <div class="row" th:each="dino: ${safeByType}">
+        <div class="col">
+            <div class="collapse multi-collapse" th:id="collapse +${dino.dinoName}">
+                <div class="card card-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
