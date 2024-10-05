@@ -35,7 +35,7 @@ public class Dino {
     private int socialMin;
 
     @Column(name="Social_Group_Max")
-    int socialMax;
+    private int socialMax;
 
     public Dino(){}
 
