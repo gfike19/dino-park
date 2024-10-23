@@ -3,23 +3,24 @@ package com.gfike.dinopark.data;
 import com.gfike.dinopark.models.Dino;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 
 import java.util.List;
 
 public interface DinoRepository extends JpaRepository<Dino, Integer> {
 
-    @Query(nativeQuery = true,value = "call FindLargeCarnivoreSafe")
+    @Procedure(name = "Dino.FindLargeCarnivoreSafe")
     List<Dino> FindLargeCarnivoreSafe();
 
-    @Query(nativeQuery = true,value = "call FindSmallCarnivoreSafe")
+    @Procedure(name = "Dino.FindSmallCarnivoreSafe")
     List<Dino>  FindSmallCarnivoreSafe();
 
-    @Query(nativeQuery = true,value = "call SansTrex")
+    @Procedure(name = "Dino.SansTrex")
     List<Dino> SansTrex();
 
-    @Query(nativeQuery = true, value="call FindArmoredHerbivoreSafe")
+    @Procedure(name = "Dino.FindArmoredHerbivoreSafe")
     List<Dino> FindArmoredHerbivoreSafe();
 
-    @Query(nativeQuery = true, value="call FindSmallMediumHerbivoreSafe")
+    @Procedure(name = "Dino.FindSmallMediumHerbivoreSafe")
     List<Dino> FindSmallMediumHerbivoreSafe();
 }
