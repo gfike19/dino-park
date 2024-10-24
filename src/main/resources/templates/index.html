@@ -73,8 +73,8 @@
 <!--                <a th:each="dino: ${safeByType}"-->
 <!--                   th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"-->
 <!--                   class="list-group-item list-group-item-action" target="_blank"></a>-->
-                <ul th:each="dino: ${safeByType}">
-                    <li th:text="${dino.dinoName + ' ' + dino.dinoType}"></li>
+                <ul th:each="dino: ${safeByType}" type="none">
+                    <li th:text="${dino.dinoName}"></li>
                 </ul>
             </div>
         </div>
