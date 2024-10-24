@@ -6,14 +6,12 @@ import com.gfike.dinopark.models.Dino;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/")
@@ -32,9 +30,14 @@ public class MainController {
         }
         boolean dinoSelected = (boolean) session.getAttribute("dinoSelected");
 
-        if((boolean)session.getAttribute("dinoSelected") == true) {
+        if((boolean) session.getAttribute("dinoSelected")) {
             Dino currDino = (Dino) session.getAttribute("currDino");
-            model.addAttribute("currDino", currDino);
+            if(currDino != null) {
+                model.addAttribute("currDino", currDino);
+            } else {
+                session.removeAttribute("currDino");
+            }
+
             List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
             model.addAttribute("safeByType", safeByType);
 
@@ -58,7 +61,7 @@ public class MainController {
     @PostMapping
     public String index(ServletRequest request, HttpSession session) {
 
-        if(request.getParameter("allDinos") == "") {
+        if(Objects.equals(request.getParameter("allDinos"), "")) {
             session.removeAttribute("dinoSelected");
             session.setAttribute("dinoSelected", false);
             return "redirect:/";
@@ -129,8 +132,15 @@ public class MainController {
 
     @GetMapping(path="test")
     public String Test (Model model) {
-        List<Dino> test = dinoRepo.FindLargeCarnivoreSafe();
+        List<Dino> test = dinoRepo.FindArmoredHerbivoreSafe();
         model.addAttribute("test", test);
         return "test";
     }
+
+    @GetMapping("/favicon.ico")
+    @ResponseBody
+    void handleFavicon() {
+        // No-op or provide an icon response if needed
+    }
+
 }
