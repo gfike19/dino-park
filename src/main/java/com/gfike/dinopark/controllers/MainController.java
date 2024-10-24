@@ -30,11 +30,14 @@ public class MainController {
 
     @GetMapping
     public String index(Model model, HttpSession session) {
-        boolean dinoSelected = false;
+        boolean dinoSelected;
         boolean tRexPresent = false;
         String userMsg = "";
-        if(session.getAttribute("dinoSelected") == null) {
+        if(session.getAttribute("dinoSelected") == null || session.getAttribute("currDino") == null) {
             session.setAttribute("dinoSelected", false);
+            model.addAttribute("allDinos", dinoDao.findAll());
+            model.addAttribute("title", "Jurassic World Evolution Assistant");
+            return "index";
         } else {
             dinoSelected = (boolean) session.getAttribute("dinoSelected");
         }
@@ -51,9 +54,6 @@ public class MainController {
                 model.addAttribute("currDino", currDino);
                 List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
                 model.addAttribute("safeByType", safeByType);
-            } else {
-                session.removeAttribute("currDino");
-                session.removeAttribute("safeByType");
             }
         }
 

@@ -4,9 +4,9 @@
 </head>
 <body>
 <span th:replace="base :: scripts" hidden></span>
-<h1 th:text="${title}"></h1>
-<span th:text="${msg}" th:value="${msg}"></span>
 <div class="container-fluid">
+    <h1 th:text="${title}"></h1>
+    <span th:text="${msg}" th:value="${msg}"></span>
     <div class="container">
         <form method="post">
             <div class="row">
@@ -66,17 +66,13 @@
             </table>
         </div>
         <div class="col-sm-5" th:if="${dinoSelected == true && trexPresent != true}">
-            <h2>Safe Dinos For Current Selection</h2>
-            <p>Click Dino Name for More Info</p>
-<!--            <div class="list-group">-->
-            <div>
-<!--                <a th:each="dino: ${safeByType}"-->
-<!--                   th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"-->
-<!--                   class="list-group-item list-group-item-action" target="_blank"></a>-->
-                <ul th:each="dino: ${safeByType}" type="none">
-                    <li th:text="${dino.dinoName}"></li>
-                </ul>
-            </div>
+            <h4>Safe Dinos For Current Selection</h4>
+            <h6>Click Dino Name for More Info</h6>
+            <table>
+                <tr th:each="dino : ${safeByType}">
+                    <td><a th:text="${dino.dinoName}" th:href="@{|/${dino.id}|}"></a> </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
