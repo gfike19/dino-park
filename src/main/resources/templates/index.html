@@ -70,7 +70,7 @@
             <h6>Click Dino Name for More Info</h6>
             <table>
                 <tr th:each="dino : ${safeByType}">
-                    <td><a th:text="${dino.dinoName}" th:href="@{|/${dino.id}|}"></a> </td>
+                    <td><a th:text="${dino.dinoName}" th:href="@{|/${dino.id}|}" target="_blank"></a> </td>
                 </tr>
             </table>
         </div>

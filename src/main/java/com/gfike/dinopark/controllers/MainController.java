@@ -138,18 +138,6 @@ public class MainController {
         return "displayDino";
     }
 
-    @GetMapping(path="error")
-    public String Error () {
-        return "error";
-    }
-
-    @GetMapping(path="test")
-    public String Test (Model model) {
-        List<Dino> test = dinoRepo.FindArmoredHerbivoreSafe();
-        model.addAttribute("test", test);
-        return "test";
-    }
-
     @GetMapping("/favicon.ico")
     @ResponseBody
     void handleFavicon() {
