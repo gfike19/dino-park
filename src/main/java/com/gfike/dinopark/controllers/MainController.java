@@ -1,5 +1,6 @@
 package com.gfike.dinopark.controllers;
 
+import com.gfike.dinopark.config.DinoTypes;
 import com.gfike.dinopark.data.DinoDao;
 import com.gfike.dinopark.data.DinoRepository;
 import com.gfike.dinopark.models.Dino;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,30 +25,38 @@ public class MainController {
     @Autowired
     private DinoRepository dinoRepo;
 
+    @Autowired
+    DinoTypes dinoTypes;
+
     @GetMapping
     public String index(Model model, HttpSession session) {
+        boolean dinoSelected = false;
+        boolean tRexPresent = false;
+        String userMsg = "";
         if(session.getAttribute("dinoSelected") == null) {
             session.setAttribute("dinoSelected", false);
+        } else {
+            dinoSelected = (boolean) session.getAttribute("dinoSelected");
         }
-        boolean dinoSelected = (boolean) session.getAttribute("dinoSelected");
 
-        if((boolean) session.getAttribute("dinoSelected")) {
+        if(dinoSelected) {
             Dino currDino = (Dino) session.getAttribute("currDino");
-            if(currDino != null) {
+            if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
+                tRexPresent = true;
+            }
+            if(tRexPresent){
+                model.addAttribute("trexPresent", true);
+            }
+            if(!tRexPresent) {
                 model.addAttribute("currDino", currDino);
+                List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
+                model.addAttribute("safeByType", safeByType);
             } else {
                 session.removeAttribute("currDino");
+                session.removeAttribute("safeByType");
             }
-
-            List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
-            model.addAttribute("safeByType", safeByType);
-
-//            if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
-//                model.addAttribute("trexPresent", true);
-//            }
         }
 
-        String userMsg = "";
         if(session.getAttribute("userMsg") != null) {
             userMsg = session.getAttribute("userMsg").toString();
             model.addAttribute("userMsg", userMsg);
@@ -78,28 +88,31 @@ public class MainController {
             return "redirect:/";
         }
 
-        String dinoType = currDino.getDinoType();
+        String currDinoType = currDino.getDinoType();
 
         List<Dino> safeByType = null;
 
-        if(!currDino.getDinoName().equals("Tyrannosaurus Rex") &&
-        dinoType.equals("Large Carnivore") || dinoType.equals("Large Piscivore")) {
+        List <String> largeCarnCompatible = Arrays.asList(dinoTypes.getLargeCarnivore(), dinoTypes.getHybridCarnivore(),
+                dinoTypes.getVeryLargeCarnivore(), dinoTypes.getMediumSizedCarnivore(),
+                dinoTypes.getVeryLargePiscivoreCarnivore(), dinoTypes.getMediumSizedPiscivoreCarnivore());
+
+        if(!currDino.getDinoName().equals("Tyrannosaurus Rex") && largeCarnCompatible.contains(currDinoType)) {
             safeByType = dinoRepo.FindLargeCarnivoreSafe();
         }
 
-        if(dinoType.equals("Small Carnivore")) {
+        if(currDinoType.equals(dinoTypes.getSmallCarnivore())) {
             safeByType = dinoRepo.FindSmallCarnivoreSafe();
         }
 
-        if(dinoType.equals("Giant Herbivore")) {
+        if(currDinoType.equals(dinoTypes.getVeryLargeHerbivore())) {
             safeByType = dinoRepo.SansTrex();
         }
 
-        if(dinoType.equals("Armored Herbivore")) {
+        if(currDinoType.equals(dinoTypes.getArmoredHerbivore())) {
             safeByType = dinoRepo.FindArmoredHerbivoreSafe();
         }
 
-        if(dinoType.equals("Medium Herbivore") || dinoType.equals("Small Herbivore")) {
+        if(currDinoType.equals(dinoTypes.getSmallHerbivore()) || currDinoType.equals(dinoTypes.getMediumSizedHerbivore())) {
             safeByType = dinoRepo.FindSmallMediumHerbivoreSafe();
         }
 

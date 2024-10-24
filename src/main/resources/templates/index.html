@@ -7,20 +7,22 @@
 <h1 th:text="${title}"></h1>
 <span th:text="${msg}" th:value="${msg}"></span>
 <div class="container-fluid">
-    <form method="post">
-        <div class="row">
-            <div class="form-group col">
-                <label for="allDinos" class="form-label">Select a dinosaur:</label>
-                <input class="form-control" list="dinos" id="allDinos" name="allDinos" autocomplete="off"/>
-                <datalist id="dinos">
-                    <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" th:value="${dino.id}">
-                    </option>
-                </datalist>
-                <input type="submit" id="submit" name="submit" value="Submit" class="btn-primary"/>
-                <h2 th:if="${userMsg != '' || userMsg != null}" th:text="${userMsg}"></h2>
+    <div class="container">
+        <form method="post">
+            <div class="row">
+                <div class="form-group col">
+                    <label for="allDinos" class="form-label">Select a dinosaur:</label>
+                    <input class="form-control" list="dinos" id="allDinos" name="allDinos" autocomplete="off"/>
+                    <datalist id="dinos">
+                        <option th:each="dino: ${allDinos}" th:text="${dino.dinoName}" th:value="${dino.id}">
+                        </option>
+                    </datalist>
+                    <input type="submit" id="submit" name="submit" value="Submit" class="btn-primary"/>
+                    <h2 th:if="${userMsg != '' || userMsg != null}" th:text="${userMsg}"></h2>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <p th:if="${dinoSelected != true}">No dino currently selected</p>
     <div class="row">
         <div class="col-sm-4" th:if="${dinoSelected == true}">
@@ -72,10 +74,7 @@
 <!--                   th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"-->
 <!--                   class="list-group-item list-group-item-action" target="_blank"></a>-->
                 <ul th:each="dino: ${safeByType}">
-                    <li>
-                        <a th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"
-                           class="list-group-item list-group-item-action" target="_blank"></a>
-                    </li>
+                    <li th:text="${dino.dinoName + ' ' + dino.dinoType}"></li>
                 </ul>
             </div>
         </div>

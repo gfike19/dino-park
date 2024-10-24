@@ -8,19 +8,18 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import java.util.List;
 
 public interface DinoRepository extends JpaRepository<Dino, Integer> {
-
-    @Procedure(name = "findLargeCarnivoreSafe")
+    @Query(value = "CALL findLargeCarnivoreSafe()", nativeQuery = true)
     List<Dino> FindLargeCarnivoreSafe();
 
-    @Procedure(name = "findSmallCarnivoreSafe")
+    @Query(value = "CALL findSmallCarnivoreSafe()", nativeQuery = true)
     List<Dino>  FindSmallCarnivoreSafe();
 
-    @Procedure(name = "sansTrex")
+    @Query(value = "CALL sansTrex()", nativeQuery = true)
     List<Dino> SansTrex();
 
-@Query(value = "CALL findArmoredHerbivoreSafe()", nativeQuery = true)
+    @Query(value = "CALL findArmoredHerbivoreSafe()", nativeQuery = true)
     List<Dino> FindArmoredHerbivoreSafe();
 
-    @Procedure(name = "Dino.findSmallMediumHerbivoreSafe")
+    @Query(value = "CALL findSmallMediumHerbivoreSafe()", nativeQuery = true)
     List<Dino> FindSmallMediumHerbivoreSafe();
 }
