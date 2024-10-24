@@ -18,13 +18,6 @@ public interface DinoRepository extends JpaRepository<Dino, Integer> {
     @Procedure(name = "sansTrex")
     List<Dino> SansTrex();
 
-//    @Procedure(name = "Dino.findArmoredHerbivoreSafe")
-//@Query(value = "CALL findArmoredHerbivoreSafe()", nativeQuery = true)
-//@Procedure(name = "FindArmoredHerbivoreSafe")
-//@Procedure(name = "FindArmoredHerbivoreSafe()")
-//    @Procedure(name = "findArmoredHerbivoreSafe()")
-//    @Procedure(name = "Dino.FindArmoredHerbivoreSafe()")
-//@Procedure(name = "findArmoredHerbivoreSafe")
 @Query(value = "CALL findArmoredHerbivoreSafe()", nativeQuery = true)
     List<Dino> FindArmoredHerbivoreSafe();
 

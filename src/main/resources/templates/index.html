@@ -66,10 +66,17 @@
         <div class="col-sm-5" th:if="${dinoSelected == true && trexPresent != true}">
             <h2>Safe Dinos For Current Selection</h2>
             <p>Click Dino Name for More Info</p>
-            <div class="list-group">
-                <a th:each="dino: ${safeByType}"
-                   th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"
-                   class="list-group-item list-group-item-action" target="_blank"></a>
+<!--            <div class="list-group">-->
+            <div>
+<!--                <a th:each="dino: ${safeByType}"-->
+<!--                   th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"-->
+<!--                   class="list-group-item list-group-item-action" target="_blank"></a>-->
+                <ul th:each="dino: ${safeByType}">
+                    <li>
+                        <a th:href="@{${dino.id}}" th:text="${dino.dinoName + ' - ' + dino.dinoType}"
+                           class="list-group-item list-group-item-action" target="_blank"></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

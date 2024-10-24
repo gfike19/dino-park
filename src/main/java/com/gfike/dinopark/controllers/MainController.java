@@ -41,9 +41,9 @@ public class MainController {
             List<Dino> safeByType = (List<Dino>) session.getAttribute("safeByType");
             model.addAttribute("safeByType", safeByType);
 
-            if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
-                model.addAttribute("trexPresent", true);
-            }
+//            if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
+//                model.addAttribute("trexPresent", true);
+//            }
         }
 
         String userMsg = "";
@@ -103,12 +103,12 @@ public class MainController {
             safeByType = dinoRepo.FindSmallMediumHerbivoreSafe();
         }
 
-        for(Dino d : safeByType) {
-            if(d.getDinoName().equals(currDino.getDinoName())) {
-                safeByType.remove(d);
-                break;
-            }
-        }
+//        for(Dino d : safeByType) {
+//            if(d.getDinoName().equals(currDino.getDinoName())) {
+//                safeByType.remove(d);
+//                break;
+//            }
+//        }
 
         session.setAttribute("safeByType", safeByType);
         session.setAttribute("currDino", currDino);
