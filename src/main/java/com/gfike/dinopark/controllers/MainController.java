@@ -146,7 +146,7 @@ public class MainController {
         // No-op or provide an icon response if needed
     }
 
-    @RequestMapping("/error")
+    @RequestMapping("error")
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute("javax.servlet.error.status_code");
 
@@ -163,5 +163,5 @@ public class MainController {
         }
         return "error";  // Returns to a template named "error.html"
     }
-    
+
 }
