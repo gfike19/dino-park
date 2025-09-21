@@ -33,10 +33,11 @@ public class MainController {
         boolean dinoSelected;
         boolean tRexPresent = false;
         String userMsg = "";
+        model.addAttribute("allDinos", dinoDao.findAll());
+        model.addAttribute("title", "Jurassic World Evolution Assistant");
+
         if(session.getAttribute("dinoSelected") == null || session.getAttribute("currDino") == null) {
             session.setAttribute("dinoSelected", false);
-            model.addAttribute("allDinos", dinoDao.findAll());
-            model.addAttribute("title", "Jurassic World Evolution Assistant");
             return "index";
         } else {
             dinoSelected = (boolean) session.getAttribute("dinoSelected");
@@ -46,8 +47,6 @@ public class MainController {
             Dino currDino = (Dino) session.getAttribute("currDino");
             if(currDino.getDinoName().equals("Tyrannosaurus Rex")) {
                 tRexPresent = true;
-            }
-            if(tRexPresent){
                 model.addAttribute("trexPresent", true);
             }
             if(!tRexPresent) {
@@ -63,8 +62,6 @@ public class MainController {
             session.removeAttribute("userMsg");
         }
         model.addAttribute("dinoSelected", dinoSelected);
-        model.addAttribute("allDinos", dinoDao.findAll());
-        model.addAttribute("title", "Jurassic World Evolution Assistant");
         return "index";
     }
 
